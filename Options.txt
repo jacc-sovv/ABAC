@@ -13,5 +13,7 @@ No example here (yet), but it's the way to go if I were to actually set this up 
 infrastructure. Lots of support and documentation, complies with many standard.
 But, it's much harder to set up than either of the above two, and may not be necessary if 
 we are just showing a proof of concept.
+May consider using Protege ontology editor to creat access control structures. Can export the file
+as XACML to make writing the XACML much easiser
 Will need OpenJDK8 and Tomcat8.
 https://github.com/authzforce/server
