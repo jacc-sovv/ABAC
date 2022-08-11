@@ -1,5 +1,12 @@
 
 #pip install py-abac to get started
+#Currently the In-Memory storage returns all policies for evaluation by PDP. 
+# In the future indexing will be added for filtering of policies to improve lookup efficiency.
+
+#It should be noted that the In-Memory backend does not persist policies 
+# and thus there is a risk of losing all policies on system restarts.
+
+
 from py_abac import PDP, Policy, AccessRequest
 from py_abac.storage.memory import MemoryStorage
 

@@ -1,4 +1,7 @@
 #pip install vakt
+#Implementation that stores Policies in memory. It's not backed by any file 
+# or something, so every restart of your application will swipe out everything that was stored.
+# Useful for testing, and if we want to do a one-time showcase of ABAC
 import vakt
 from vakt.rules import Eq, Any, StartsWith, And, Greater, Less
 
