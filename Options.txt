@@ -4,10 +4,10 @@ Needs python >= 3.5
 https://github.com/ketgo/py-abac
 
 Vakt:
-Again, easier to write policies than using straight XACML, little more in depth than Py-abac. Can store in memory,
-SQL, or mongoDB. Needs python >= 3.4 Would be my go-to for a proof-of-concept, it's complex and fine-grain enough
+More flexibility with policy writing. Can write in JSON format, or Vakt policy format, or Amazon IAM policy format, and the policies are a little more in depth than Py-abac. Can store in memory,
+SQL, or mongoDB. Needs python >= 3.4 Would be my recommendation for this project, it's complex and fine-grain enough
 to give plenty of control and is very well documented, but doesn't necessarily comply with OASIS XACML standards,
-so probably would not be great for use in actual industry
+so probably would not be great for use in actual industry.
 https://github.com/kolotaev/vakt
  
 Authforce server:
