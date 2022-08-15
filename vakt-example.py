@@ -1,9 +1,11 @@
 #pip install vakt
-#Implementation that stores Policies in memory. It's not backed by any file 
-# or something, so every restart of your application will swipe out everything that was stored.
-# Useful for testing, and if we want to do a one-time showcase of ABAC
+# Implementation that stores Policies in memory. It's not backed by any file, 
+# so every restart of your application will swipe out everything that was stored.
+# Useful for testing or if we want to do a one-time showcase of ABAC to display 
+# that ABAC prevents against a specifically crafted attack
+
 import vakt
-from vakt.rules import Eq, Any, StartsWith, And, Greater, Less
+from vakt.rules import Eq, Any, StartsWith, And, Greater, Less, EndsWith
 
 policy = vakt.Policy(
     123456,
@@ -17,8 +19,21 @@ policy = vakt.Policy(
     users that have > 50 and < 999 stars and came from Github
     """
 )
+
+policy2 = vakt.Policy(
+    1,
+    actions=[Eq('get')],
+    resources=[EndsWith('.log')],
+    subjects=[{'role': 'admin'}],
+    effect=vakt.ALLOW_ACCESS,
+    description="""
+    Allow admins to get the log files
+    """
+)
+policies = [policy, policy2]
 storage = vakt.MemoryStorage()
-storage.add(policy)
+for p in policies:
+    storage.add(p)
 guard = vakt.Guard(storage, vakt.RulesChecker())
 
 inq = vakt.Inquiry(action='fork',
@@ -26,4 +41,11 @@ inq = vakt.Inquiry(action='fork',
                    subject={'name': 'larry', 'stars': 80},
                    context={'referer': 'https://github.com'})
 
+print(f"Is the first request allowed? {guard.is_allowed(inq)}")
+
 assert guard.is_allowed(inq)
+
+inq2 = vakt.Inquiry(action='get',
+                    resource='system.log',
+                    subject={'name': 'jack', 'role': 'user'})
+print(f"Is the requets by Jack allowed? {guard.is_allowed(inq2)}")

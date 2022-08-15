@@ -1,10 +1,11 @@
 
 #pip install py-abac to get started
+#From the py-abac docs:
 #Currently the In-Memory storage returns all policies for evaluation by PDP. 
-# In the future indexing will be added for filtering of policies to improve lookup efficiency.
+#In the future indexing will be added for filtering of policies to improve lookup efficiency.
 
 #It should be noted that the In-Memory backend does not persist policies 
-# and thus there is a risk of losing all policies on system restarts.
+#and thus there is a risk of losing all policies on system restarts.
 
 
 from py_abac import PDP, Policy, AccessRequest
@@ -62,4 +63,7 @@ request = AccessRequest.from_json(request_json)
 
 # Check if access request is allowed. Evaluates to True since 
 # Max is allowed to get any resource when client IP matches.
+
+print(f"Is the request allowed? {pdp.is_allowed(request)}")
+
 assert pdp.is_allowed(request)
