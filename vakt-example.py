@@ -64,4 +64,19 @@ abac_inq1 = vakt.Inquiry(action='get',
                          resource='PLC',
                          subject={'name' : 'jack', 'role' : 'bingus', 'device_id' : '111.222', 
                         'ip' : '192.168.2.4'})
-print(f"Is the ABAC request by Jack allowed? {guard.is_allowed(abac_inq1)}")
+
+#What happens if we don't have a correct deviceID but are on the same network?
+abac_inq2 = vakt.Inquiry(action='get',
+                         resource='PLC',
+                         subject={'name' : 'eve', 'role' : 'bingus', 'device_id' : '111.999', 
+                        'ip' : '192.168.2.4'})
+
+#What happens if we don't have a correct IP but are on a engineering workstation?
+abac_inq3 = vakt.Inquiry(action='get',
+                         resource='PLC',
+                         subject={'name' : 'alice', 'role' : 'bingus', 'device_id' : '111.222', 
+                        'ip' : '192.250.48.6'})
+                        
+print(f"Is the ABAC request by Jack allowed? (Workstation on valid network) {guard.is_allowed(abac_inq1)}")
+print(f"Is the ABAC request by eve allowed? (Wrong device ID, correct IP) {guard.is_allowed(abac_inq2)}")
+print(f"Is the ABAC request by alice allowed? (Correct deviceID, wrong IP) {guard.is_allowed(abac_inq3)}")
