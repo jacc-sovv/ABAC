@@ -5,7 +5,7 @@
 # that ABAC prevents against a specifically crafted attack
 
 import vakt
-from vakt.rules import Eq, Any, StartsWith, And, Greater, Less, EndsWith
+from vakt.rules import Eq, Any, StartsWith, And, Greater, Less, EndsWith, In, CIDR
 
 policy = vakt.Policy(
     123456,
@@ -30,7 +30,16 @@ policy2 = vakt.Policy(
     Allow admins to get the log files
     """
 )
-policies = [policy, policy2]
+#Example policy on a PLC resource using certain deviceIDs and example CIDR's
+policy3 = vakt.Policy(
+    2,
+    actions=[Eq('get'), Eq('set')],
+    subjects=[{'name': Any(), 'device_id' : In('111.222', '111.333', '111.444'), 
+                'ip' : CIDR('192.168.2.0/24')}],
+    resources=[Eq('PLC')],
+    effect=vakt.ALLOW_ACCESS
+)
+policies = [policy, policy2, policy3]
 storage = vakt.MemoryStorage()
 for p in policies:
     storage.add(p)
@@ -49,3 +58,10 @@ inq2 = vakt.Inquiry(action='get',
                     resource='system.log',
                     subject={'name': 'jack', 'role': 'user'})
 print(f"Is the requets by Jack allowed? {guard.is_allowed(inq2)}")
+
+#Test action on a PLC resource with given device_id and ip
+abac_inq1 = vakt.Inquiry(action='get',
+                         resource='PLC',
+                         subject={'name' : 'jack', 'role' : 'bingus', 'device_id' : '111.222', 
+                        'ip' : '192.168.2.4'})
+print(f"Is the ABAC request by Jack allowed? {guard.is_allowed(abac_inq1)}")
