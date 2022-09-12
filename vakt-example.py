@@ -62,7 +62,7 @@ print(f"Is the requets by Jack allowed? {guard.is_allowed(inq2)}")
 #Test action on a PLC resource with given device_id and ip
 abac_inq1 = vakt.Inquiry(action='get',
                          resource='PLC',
-                         subject={'name' : 'jack', 'role' : 'bingus', 'device_id' : '111.222', 
+                         subject={'name' : 'jack', 'role' : 'engineer', 'device_id' : '111.222', 
                         'ip' : '192.168.2.4'})
 
 #What happens if we don't have a correct deviceID but are on the same network?
